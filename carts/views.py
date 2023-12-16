@@ -42,7 +42,6 @@ def add_cart(request, product_id):
         if is_cart_item_exists:
 
             cart_item = CartItem.objects.filter(product=product, user=current_user)
-
             ex_var_list = []
             id = []
             for item in cart_item:
