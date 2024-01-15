@@ -16,6 +16,7 @@ from carts.views import _cart_id
 from .forms import RegistrationForms
 from .models import Account
 from django.contrib import messages, auth
+import requests
 
 
 # Create your views here.
@@ -101,7 +102,16 @@ def login(request):
 
             auth.login(request, user)
             messages.success(request, "You are now logged in!")
-            return redirect('dashboard')
+            url = request.META.get('HTTP_REFERER')
+            try:
+                query = requests.utils.urlparse(url).query
+                params = dict(x.splite('=') for x in query.splite('&'))
+                if 'next' in params:
+                    nextPage = params['next']
+                    return redirect(nextPage)
+
+            except:
+                return redirect('dashboard')
         else:
             messages.error(request, "Invalid login credentials!")
             return redirect('login')
