@@ -7,6 +7,9 @@ from .forms import OrderForm
 from .models import Order
 
 
+def payments(request):
+    return render(request, 'orders/payments.html')
+
 # Create your views here.
 def place_order(request, total=0, quantity=0,):
     current_user = request.user
